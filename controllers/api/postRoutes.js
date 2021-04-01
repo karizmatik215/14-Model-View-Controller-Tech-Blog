@@ -37,7 +37,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    Post.findOne(req.params.id, {
+    const postData = await Post.findOne(req.params.id, {
       attributes: ['id', 'content', 'title', 'date_created'],
       include: [
         {
@@ -72,7 +72,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', withAuth, async (req, res) => {
   try {
-    Post.create({
+    const postData = await Post.create({
       title: req.body.title,
       content: req.body.content,
       user_id: req.session.user_id,
@@ -85,7 +85,7 @@ router.post('/', withAuth, async (req, res) => {
 
 router.put('/:id', withAuth, async (req, res) => {
   try {
-    Post.update(req.params.id, {
+    const postData = await Post.update(req.params.id, {
       title: req.body.title,
       content: req.body.content,
     });
@@ -101,7 +101,7 @@ router.put('/:id', withAuth, async (req, res) => {
 
 router.delete('/:id', withAuth, async (req, res) => {
   try {
-    Post.destroy(req.params.id);
+    const postData = await Post.destroy(req.params.id);
     if (!postData) {
       res.status(404).json({ message: 'No post found with this id' });
       return;
