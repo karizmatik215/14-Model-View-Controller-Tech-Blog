@@ -6,25 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tech Blog</title>
+    <link rel="stylesheet" href="/public/css/style.css">
 </head>
 
 <body>
     <div class="flex-column justify-space-around">
         <header class="display-flex justify-space-between align-center p-2">
 
-            <nav>
-                <a href="/">Home</a>
-                <a href="/dashboard">Dashboard</a>
+            <nav class="nav">
+                <a class="link" href="/">Home</a>
+                <a class="link" href="/dashboard">Dashboard</a>
                 {{#if logged_in}}
-                <button class="no-button" id="logout">logout</button>
+                <a class="link" href="/" id="logout">logout</a>
                 {{else}}
-                <a href="/login">login</a>
+                <a class="link" href="/login">login</a>
                 {{/if}}
             </nav>
 
-            <h1>
-                <a href="/">Tech Blog</a>
-            </h1>
+            <h1>Tech Blog</h1>
 
         </header>
         <main class="container container-fluid mt-5">
