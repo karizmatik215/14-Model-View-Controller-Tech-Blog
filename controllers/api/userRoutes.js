@@ -1,13 +1,14 @@
 const router = require('express').Router();
 const { User } = require('../../models');
+const bcrypt = require('bcrypt');
 
+//create user on signup
 router.post('/', async (req, res) => {
   try {
     const userData = await User.create(req.body);
 
     req.session.save(() => {
       req.session.user_id = userData.id;
-      req.session.username = userData.username;
       req.session.logged_in = true;
 
       res.status(200).json(userData);
@@ -17,6 +18,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+//create login session
 router.post('/login', async (req, res) => {
   try {
     const userData = await User.findOne({
@@ -47,6 +49,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
+//destroy session on logout
 router.post('/logout', (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
@@ -54,34 +57,6 @@ router.post('/logout', (req, res) => {
     });
   } else {
     res.status(404).end();
-  }
-});
-
-router.put('/:id', async (req, res) => {
-  try {
-    const userData = await User.update(req.params.id, {
-      individualHooks: true,
-    });
-    if (!userData[0]) {
-      res.status(404).json({ message: 'No user found with this id' });
-      return;
-    }
-    res.json(userData);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-router.delete('/:id', async (req, res) => {
-  try {
-    const userData = await User.destroy(req.params.id);
-    if (!userData) {
-      res.status(404).json({ message: 'No user found with this id' });
-      return;
-    }
-    res.json(userData);
-  } catch (error) {
-    res.status(500).json(error);
   }
 });
 
