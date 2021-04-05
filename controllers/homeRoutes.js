@@ -72,39 +72,9 @@ router.get('/signup', (req, res) => {
   res.render('signup');
 });
 
-//route to get post by id
-router.get('/post/:id', async (req, res) => {
-  try {
-    const postData = await post.findOne(req.param.id, {
-      include: [
-        {
-          model: Comment,
-          include: {
-            model: User,
-            attributes: ['username'],
-          },
-        },
-        {
-          model: User,
-          attributes: ['username'],
-        },
-      ],
-    });
-
-    if (!postData) {
-      res.status(404).json({ message: 'No post found with this id' });
-      return;
-    }
-
-    const post = postData.get({ plain: true });
-
-    res.render('post', {
-      ...post,
-      logged_in: req.session.logged_in,
-    });
-  } catch (error) {
-    res.status(500).json(error);
-  }
+//route to create post page
+router.get('/post', (req, res) => {
+  res.render('new-post', { logged_in: req.session.logged_in });
 });
 
 //route to edit
@@ -140,6 +110,42 @@ router.get('/edit/id:', withAuth, async (req, res) => {
 router.get('/new', withAuth, async (req, res) => {
   try {
     res.render('new-post', { logged_in: true });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+//get post by id
+router.get('/viewpost/:id', withAuth, async (req, res) => {
+  try {
+    const postData = await Post.findOne({
+      where: {
+        id: req.params.id,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ['username'],
+        },
+        {
+          model: Comment,
+          attributes: ['id', 'content', 'user_id'],
+          include: [{ model: User, attributes: ['username'] }],
+        },
+      ],
+    });
+
+    if (!postData) {
+      res.status(404).json({ message: 'No post found with this id' });
+      return;
+    }
+
+    const post = postData.get({ plain: true });
+
+    res.render('comment', {
+      post,
+      logged_in: req.session.logged_in,
+    });
   } catch (error) {
     res.status(500).json(error);
   }
