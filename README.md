@@ -18,6 +18,8 @@ A CMS-style blog site similar to a Wordpress site, where developers can publish 
 
 Deployed to Heroku
 
+[Karizmatik's Tek Blog!](https://pacific-oasis-10927.herokuapp.com/)
+
 This project is licensed under the MIT License.
 Click [Link](https://choosealicense.com/licenses/mit/) for more information.
 
