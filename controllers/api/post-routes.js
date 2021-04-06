@@ -38,14 +38,18 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 //update a post
-router.put('/:id', withAuth, async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const postData = await Post.update(
       {
         title: req.body.title,
         content: req.body.content,
       },
-      { where: { id: req.params.id } }
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
     );
 
     if (!postData) {
@@ -59,7 +63,7 @@ router.put('/:id', withAuth, async (req, res) => {
 });
 
 //delete a post
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const postData = await Post.destroy({ where: { id: req.params.id } });
     if (!postData) {
