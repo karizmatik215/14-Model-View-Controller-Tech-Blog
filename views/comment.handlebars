@@ -1,25 +1,26 @@
-<div class="card single-post-padding">
-    <h1 id="post-title" class="post-header">{{post.title}} </h1>
-    <h4>Posted by {{post.user.username}} on {{date_created}}</h4>
+<div class="card">
+    <h4 id="post-title" class="post-header">{{post.title}} </h4>
     <div class="container">
-        <p id="post-body" class="post-text post-text-padding">{{post.content}}</p>
+        <p id="post-content">{{post.content}}</p>
+        <p>Posted by {{post.user.username}} on {{post.date_created}}</p>
     </div>
-    {{#if currentUser}}
-    <button id="edit-btn">Edit</button>
-    <button id="delete-btn">Delete</button>
-    {{/if}}
+
 </div>
-<div class="padding-20">
-    <form id="comment-form " class="padding-20">
-        <label for="comment-text">Leave A Comment</label>
-        <input class="padding-20" type="textarea" name="comment-text" id="comment-text">
-        <button class="padding-20" id="post-comment-btn">Post!</button>
+
+<div>
+    <form id="comment-form">
+        <label for="comment-text">Leave a comment</label>
+        <input type="textarea" name="comment-text" id="comment-text">
+        <button id="post-comment-btn">Submit</button>
     </form>
 </div>
-{{#each post.comments as |aComment|}}
-{{> comment aComment}}
+
+<br>
+
+{{#each post.comments as |Comment| }}
+{{> leave-comment Comment}}
 {{/each}}
+
+{{#if post.user.username}}
 <script src="/js/comment.js"></script>
-{{#if currentUser}}
-<script src="/js/edit-delete-post.js"> </script>
 {{/if}}

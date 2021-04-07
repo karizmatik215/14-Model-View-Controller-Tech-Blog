@@ -1,5 +1,10 @@
-<h1>My Posts</h1>
-<h2><a href="/post">Create New Post</a></h2>
-{{#each posts as |aPost| }}
-{{> post aPost}}
-{{/each}}
+<h1><a href="/post">Create New Post</a></h1>
+
+{{#if posts.length}}
+<section>
+    <h2>My Posts</h2>
+    {{#each posts as |post| }}
+    {{> dashboard-postlist post}}
+    {{/each}}
+</section>
+{{/if}}
