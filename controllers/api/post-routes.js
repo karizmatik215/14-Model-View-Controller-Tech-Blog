@@ -1,30 +1,27 @@
 const router = require('express').Router();
-const { Post } = require('../../models');
-const withAuth = require('../../utils/auth');
+const { Post, Comment } = require('../../models');
 
 //get all posts
-router.get('/', withAuth, async (req, res) => {
-  Post.findAll({
-    attributes: ['id', 'title', 'content', 'user_id'],
-    include: [
-      {
-        model: Comment,
-        as: 'comments',
-        attributes: ['id', 'content', 'user_id'],
-      },
-    ],
-  })
-    .then((postData) => {
-      res.json(postData);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
+router.get('/', async (req, res) => {
+  try {
+    const postData = await Post.findAll({
+      attributes: ['id', 'title', 'content', 'user_id'],
+      include: [
+        {
+          model: Comment,
+          as: 'comments',
+          attributes: ['id', 'content', 'user_id'],
+        },
+      ],
     });
+    res.json(postData);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 //create a new post
-router.post('/', withAuth, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const postData = await Post.create({
       title: req.body.title,
@@ -63,7 +60,7 @@ router.put('/:id', async (req, res) => {
 });
 
 //delete a post
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const postData = await Post.destroy({ where: { id: req.params.id } });
     if (!postData) {
