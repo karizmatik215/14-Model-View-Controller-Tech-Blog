@@ -20,6 +20,8 @@ Deployed to Heroku
 
 [Karizmatik's Tek Blog!](https://pacific-oasis-10927.herokuapp.com/)
 
+## License
+
 This project is licensed under the MIT License.
 Click [Link](https://choosealicense.com/licenses/mit/) for more information.
 
