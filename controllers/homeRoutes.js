@@ -100,7 +100,7 @@ router.get('/edit/id:', withAuth, async (req, res) => {
       return;
     }
     const post = dashboardData.get({ plain: true });
-    res.render('edit-post', { post, logged_in: true });
+    res.render('post', { post, logged_in: true });
   } catch (error) {
     res.status(500).json(error);
   }

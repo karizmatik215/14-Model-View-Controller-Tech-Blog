@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Comment, User, Post } = require('../../models');
+const { Comment, Post } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 router.get('/', withAuth, async (req, res) => {
@@ -42,7 +42,7 @@ router.post('/', withAuth, async (req, res) => {
 router.put('/:id', withAuth, (req, res) => {
   Comment.update(
     {
-      comment_text: req.body.comment_text,
+      content: req.body.content,
     },
     {
       where: {
